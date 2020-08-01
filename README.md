@@ -1,2 +1,2 @@
 # mini-php
-A php mini framework for small projects
+A mini php framework for small projects
