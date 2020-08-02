@@ -3,5 +3,9 @@
     "psr-4": {
       "MiniPHP\\": "app"
     }
+  },
+  "require": {
+    "ext-pdo": "*",
+    "vlucas/phpdotenv": "^5.1"
   }
 }
