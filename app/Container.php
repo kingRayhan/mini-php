@@ -16,6 +16,17 @@ class Container implements ArrayAccess
      */
     protected $caches = [];
 
+    /**
+     * Container constructor.
+     * @param array $items
+     */
+    public function __construct($items = [])
+    {
+        foreach ($items as $offset => $item){
+            $this->offsetSet($offset, $item);
+        }
+    }
+
 
     /**
      * @param mixed $offset

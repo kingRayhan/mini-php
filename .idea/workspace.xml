@@ -20,8 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a45a63c5-c345-4b75-92ce-2a5a14d6ef31" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Router.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/App.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/App.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Container.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Container.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +85,7 @@
       <updated>1596294906947</updated>
       <workItem from="1596294911004" duration="1677000" />
       <workItem from="1596379948468" duration="97000" />
-      <workItem from="1596399124526" duration="4643000" />
+      <workItem from="1596399124526" duration="5663000" />
     </task>
     <servers />
   </component>
@@ -102,14 +105,14 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="770" y="248" key="#com.intellij.ide.util.MemberChooser" timestamp="1596401615077">
+    <state x="770" y="248" key="#com.intellij.ide.util.MemberChooser" timestamp="1596404537099">
       <screen x="0" y="23" width="1920" height="1005" />
     </state>
-    <state x="770" y="248" key="#com.intellij.ide.util.MemberChooser/0.23.1920.1005@0.23.1920.1005" timestamp="1596401615077" />
-    <state x="681" y="258" key="NewPhpClassDialog" timestamp="1596295106113">
+    <state x="770" y="248" key="#com.intellij.ide.util.MemberChooser/0.23.1920.1005@0.23.1920.1005" timestamp="1596404537099" />
+    <state x="681" y="258" key="NewPhpClassDialog" timestamp="1596404380222">
       <screen x="0" y="23" width="1920" height="1005" />
     </state>
-    <state x="681" y="258" key="NewPhpClassDialog/0.23.1920.1005@0.23.1920.1005" timestamp="1596295106113" />
+    <state x="681" y="258" key="NewPhpClassDialog/0.23.1920.1005@0.23.1920.1005" timestamp="1596404380222" />
     <state x="589" y="456" key="NewPhpFileDialog" timestamp="1596402981609">
       <screen x="0" y="23" width="1920" height="1005" />
     </state>

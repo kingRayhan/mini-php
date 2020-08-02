@@ -36,3 +36,6 @@ $container['db'] = function ($c) {
         die("<mark>PDOException:</mark> " . $e->getMessage());
     }
 };
+
+
+print_r($container);
