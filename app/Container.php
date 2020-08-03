@@ -1,111 +1,63 @@
 <?php
+
 namespace MiniPHP;
 
 use ArrayAccess;
-use Closure;
 
 class Container implements ArrayAccess
 {
-    /**
-     * @var array Array of container items
-     */
     protected $items = [];
 
-    /**
-     * @var array item cache
-     */
-    protected $caches = [];
+    protected $cache = [];
 
-    /**
-     * Container constructor.
-     * @param array $items
-     */
-    public function __construct($items = [])
+    public function __construct(array $items = [])
     {
-        foreach ($items as $offset => $item){
-            $this->offsetSet($offset, $item);
+        foreach ($items as $key => $item) {
+            $this->offsetSet($key, $item);
         }
     }
 
+    public function offsetSet($offset, $value)
+    {
+        $this->items[$offset] = $value;
+    }
 
-    /**
-     * @param mixed $offset
-     * @return bool
-     */
+    public function offsetGet($offset)
+    {
+        if (!$this->has($offset)) {
+            return null;
+        }
+
+        if (isset($this->cache[$offset])) {
+            return $this->cache[$offset];
+        }
+
+        $item = $this->items[$offset]($this);
+
+        $this->cache[$offset] = $item;
+
+        return $item;
+    }
+
+    public function offsetUnset($offset)
+    {
+        if ($this->has($offset)) {
+            unset($this->items[$offset]);
+        }
+    }
+
     public function offsetExists($offset)
     {
         return isset($this->items[$offset]);
     }
 
-    /**
-     * @param mixed $offset
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-        if(!$this->has($offset)) return null;
-
-        $item = null;
-
-        if(isset($this->caches[$offset])) { $item = $this->caches[$offset]; }
-        else{ $item = $this->items[$offset]; }
-
-        // https://stackoverflow.com/a/7101568/3705299
-        return $item instanceof Closure ? $item($this) : $item;
-    }
-
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     * @return mixed
-     */
-    public function offsetSet($offset, $value)
-    {
-        return $this->items[$offset] = $value;
-    }
-
-    /**
-     * @param mixed $offset
-     */
-    public function offsetUnset($offset)
-    {
-        if($this->has($offset))
-            unset($this->items[$offset]);
-    }
-
-    /**
-     * @param $offset
-     * @return mixed
-     */
-    public function get($offset)
-    {
-        return $this->offsetGet($offset);
-    }
-
-    /**
-     * @param $offset
-     * @return boolean
-     */
     public function has($offset)
     {
         return $this->offsetExists($offset);
     }
 
-    /**
-     * @param $offset
-     */
-    public function remove($offset)
+    public function __get($property)
     {
-        if($this->has($offset))
-            $this->offsetUnset($offset);
-    }
-
-    /**
-     * @param $offset
-     * @return mixed|null
-     */
-    public function __get($offset)
-    {
-        return $this->get($offset);
+        return $this->offsetGet($property);
     }
 }

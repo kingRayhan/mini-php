@@ -1,15 +1,14 @@
 <?php
+require_once  __DIR__ . '/vendor/autoload.php';
 
 use MiniPHP\App;
 
-require_once  __DIR__ . '/vendor/autoload.php';
 try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 }catch (Dotenv\Exception\InvalidPathException $e){
     die("Unable to find .env file");
 }
-
 
 $app = new App();
 $container = $app->getContainer();
@@ -20,10 +19,9 @@ $container['config'] = function () {
         'db_host' => $_ENV['DB_HOST'],
         'db_name' => $_ENV['DB_NAME'],
         'db_user' => $_ENV['DB_USER'],
-        'db_pass' => $_ENV['DB_PASS'],
+        'db_pass' => $_ENV['DB_PASS']
     ];
 };
-
 
 $container['db'] = function ($c) {
     try {
@@ -38,4 +36,12 @@ $container['db'] = function ($c) {
 };
 
 
-print_r($container);
+$app->get('/' , function (){
+    echo "Home";
+});
+
+$app->get('/contact' , function (){
+    echo "Contact";
+});
+
+$app->run();
