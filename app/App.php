@@ -74,12 +74,13 @@ class App
         $router = $this->container->router;
         $router->setPath($_SERVER['PATH_INFO'] ?? '/');
 
-        try {
-            $response = $router->getResponse();
-            $this->execute($response);
-        } catch (\Exception $e) {
-            die($e->getCode() . " " . $e->getMessage());
-        }
+        $response = $router->getResponse();
+        $this->execute($response);
+//        try {
+//        } catch (\Exception $e) {
+//            header(':', true, $e->getCode());
+//            die($e->getCode() . " " . $e->getMessage());
+//        }
     }
 
 

@@ -2,6 +2,8 @@
 require_once  __DIR__ . '/vendor/autoload.php';
 
 use MiniPHP\App;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -12,6 +14,10 @@ try {
 
 $app = new App();
 $container = $app->getContainer();
+
+$whoops = new Run;
+$whoops->pushHandler(new PrettyPageHandler);
+$whoops->register();
 
 $container['config'] = function () {
     return [
