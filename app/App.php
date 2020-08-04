@@ -3,8 +3,6 @@
 namespace MiniPHP;
 
 
-use MiniPHP\Exceptions\MethodNotAllowedException;
-
 /**
  * Class App
  * @package MiniPHP
@@ -74,12 +72,9 @@ class App
         $router = $this->container->router;
         $router->setPath($_SERVER['PATH_INFO'] ?? '/');
 
-        try {
-            $response = $router->getResponse();
-            $this->execute($response);
-        } catch (\Exception $e) {
-            die($e->getCode() . " " . $e->getMessage());
-        }
+        $response = $router->getResponse();
+        $this->execute($response);
+
     }
 
 
@@ -89,6 +84,16 @@ class App
      */
     public function execute($callable)
     {
+
+        if (is_array($callable)) { // when the call able is a controller
+            // check if its already instantiated
+            if (!is_object($callable[0])) {
+                $callable[0] = new $callable[0];
+            }
+
+            return call_user_func($callable);
+        }
+
         return $callable();
     }
 

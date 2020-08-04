@@ -1,6 +1,3 @@
+<?php
 
-
-
-
-//$container->router->setPath('/');
 

@@ -1,17 +1,24 @@
 <?php
-require_once  __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 use MiniPHP\App;
+use MiniPHP\Controllers\HomeController;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
-}catch (Dotenv\Exception\InvalidPathException $e){
+} catch (Dotenv\Exception\InvalidPathException $e) {
     die("Unable to find .env file");
 }
 
 $app = new App();
 $container = $app->getContainer();
+
+$whoops = new Run;
+$whoops->pushHandler(new PrettyPageHandler);
+$whoops->register();
 
 $container['config'] = function () {
     return [
@@ -30,26 +37,17 @@ $container['db'] = function ($c) {
             $c->config['db_user'],
             $c->config['db_pass']
         );
-    }catch(PDOException $e){
+    } catch (PDOException $e) {
         die("<mark>PDOException:</mark> " . $e->getMessage());
     }
 };
 
 
-$app->get('/' , function (){
-    echo "Home";
-});
-
-$app->get('/contact' , function (){
-    echo "Contact";
-});
-
-$app->post('/signup' , function (){
-    echo "Contact Post";
-});
-
-$app->map('/me' , function (){
-    echo "about me";
-}, ['GET','POST']);
+$app->get('/', [HomeController::class, 'index']);
+$app->get('/me', [HomeController::class, 'me']);
+$app->post('/signup', [HomeController::class, 'signup']);
+$app->map('/hi', [HomeController::class, 'hi'] , ['GET', 'PATCH']);
 
 $app->run();
+
+
