@@ -2,6 +2,8 @@
 namespace MiniPHP;
 
 
+use MiniPHP\Exceptions\MethodNotAllowedException;
+
 /**
  * Class App
  * @package MiniPHP
@@ -51,8 +53,12 @@ class App
         $router = $this->container->router;
         $router->setPath($_SERVER['PATH_INFO'] ?? '/');
 
-        $response = $router->getResponse();
-        $this->execute($response);
+        try {
+            $response = $router->getResponse();
+            $this->execute($response);
+        }catch (MethodNotAllowedException $e){
+            die($e->getCode() . " ". $e->getMessage());
+        }
     }
 
     public function execute($callable)

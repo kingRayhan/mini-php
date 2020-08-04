@@ -2,6 +2,8 @@
 
 namespace MiniPHP;
 
+use MiniPHP\Exceptions\MethodNotAllowedException;
+
 /**
  * Class Router
  * @package MiniPHP
@@ -45,6 +47,7 @@ class Router
 
     /**
      * @return mixed
+     * @throws MethodNotAllowedException
      */
     public function getResponse()
     {
@@ -54,7 +57,7 @@ class Router
 
 
         if(!in_array($request_verb, $methods))
-            die("Method not Allowed");
+            throw new MethodNotAllowedException();
 
         return $this->routes[$this->path];
     }
