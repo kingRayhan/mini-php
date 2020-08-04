@@ -9,7 +9,6 @@ namespace MiniPHP;
 class App
 {
     protected $container;
-    public $router;
 
     /**
      * App constructor.
@@ -36,7 +35,16 @@ class App
      */
     public function get($uri, $handler)
     {
-        $this->container->router->addRoute($uri, $handler);
+        $this->container->router->addRoute($uri, $handler, ['GET']);
+    }
+
+    /**
+     * @param $uri
+     * @param $handler
+     */
+    public function post($uri, $handler)
+    {
+        $this->container->router->addRoute($uri, $handler, ['POST']);
     }
 
     public function run(){

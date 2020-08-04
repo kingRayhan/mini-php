@@ -44,4 +44,8 @@ $app->get('/contact' , function (){
     echo "Contact";
 });
 
+$app->post('/signup' , function (){
+    echo "Contact Post";
+});
+
 $app->run();

@@ -9,6 +9,10 @@ namespace MiniPHP;
 class Router
 {
     protected $routes = [];
+    protected $methods = [];
+    /**
+     * @var string
+     */
     protected $path = "/";
 
     /**
@@ -20,20 +24,23 @@ class Router
     }
 
     /**
-     * @param mixed $path
+     * @param string $path
      */
-    public function setPath($path = '/')
+    public function setPath(string $path = '/')
     {
         $this->path = $path;
     }
 
+
     /**
-     * @param $uri
-     * @param $handler
+     * @param string $uri
+     * @param \Closure $handler
+     * @param string[] $methods
      */
-    public function addRoute($uri, $handler)
+    public function addRoute(string $uri, \Closure $handler, $methods = ['GET'])
     {
         $this->routes[$uri] = $handler;
+        $this->methods[$uri] = $methods;
     }
 
     /**
@@ -41,6 +48,14 @@ class Router
      */
     public function getResponse()
     {
+        $routerPath = $this->path;
+        $methods = $this->methods[$routerPath];
+        $request_verb = $_SERVER['REQUEST_METHOD'];
+
+
+        if(!in_array($request_verb, $methods))
+            die("Method not Allowed");
+
         return $this->routes[$this->path];
     }
 
