@@ -1,8 +1,5 @@
 <?php
-
-
 namespace MiniPHP\Controllers;
-
 
 class HomeController
 {

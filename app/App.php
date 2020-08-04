@@ -74,7 +74,6 @@ class App
 
         $response = $router->getResponse();
         $this->execute($response);
-
     }
 
 
