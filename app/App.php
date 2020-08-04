@@ -1,4 +1,5 @@
 <?php
+
 namespace MiniPHP;
 
 
@@ -15,7 +16,8 @@ class App
     /**
      * App constructor.
      */
-    public function __construct(){
+    public function __construct()
+    {
         $this->container = new Container([
             'router' => function () {
                 return new Router;
@@ -32,6 +34,7 @@ class App
     }
 
     /**
+     * Get route handler
      * @param $uri
      * @param $handler
      */
@@ -41,6 +44,7 @@ class App
     }
 
     /**
+     * Post route handler
      * @param $uri
      * @param $handler
      */
@@ -49,18 +53,40 @@ class App
         $this->container->router->addRoute($uri, $handler, ['POST']);
     }
 
-    public function run(){
+
+    /**
+     * Multiple route verb handler
+     * @param $uri
+     * @param $handler
+     * @param string[] $methods
+     */
+    public function map($uri, $handler, $methods = ['GET'])
+    {
+        $this->container->router->addRoute($uri, $handler, $methods);
+    }
+
+
+    /**
+     *  Run the application
+     */
+    public function run()
+    {
         $router = $this->container->router;
         $router->setPath($_SERVER['PATH_INFO'] ?? '/');
 
         try {
             $response = $router->getResponse();
             $this->execute($response);
-        }catch (MethodNotAllowedException $e){
-            die($e->getCode() . " ". $e->getMessage());
+        } catch (\Exception $e) {
+            die($e->getCode() . " " . $e->getMessage());
         }
     }
 
+
+    /**
+     * @param $callable
+     * @return mixed
+     */
     public function execute($callable)
     {
         return $callable();

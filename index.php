@@ -48,4 +48,8 @@ $app->post('/signup' , function (){
     echo "Contact Post";
 });
 
+$app->map('/me' , function (){
+    echo "about me";
+}, ['GET','POST']);
+
 $app->run();

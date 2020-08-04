@@ -3,6 +3,7 @@
 namespace MiniPHP;
 
 use MiniPHP\Exceptions\MethodNotAllowedException;
+use MiniPHP\Exceptions\RouteNotFoundException;
 
 /**
  * Class Router
@@ -48,6 +49,7 @@ class Router
     /**
      * @return mixed
      * @throws MethodNotAllowedException
+     * @throws RouteNotFoundException
      */
     public function getResponse()
     {
@@ -55,9 +57,19 @@ class Router
         $methods = $this->methods[$routerPath];
         $request_verb = $_SERVER['REQUEST_METHOD'];
 
+        // Check if requested route exists
+        if(!isset($this->routes[$routerPath]))
+        {
+            header(':', true, 404);
+            throw new RouteNotFoundException();
+        }
 
+        // Check for allowed request verb
         if(!in_array($request_verb, $methods))
+        {
+            header(':', true, 405);
             throw new MethodNotAllowedException();
+        }
 
         return $this->routes[$this->path];
     }
