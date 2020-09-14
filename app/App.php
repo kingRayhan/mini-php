@@ -3,6 +3,10 @@
 namespace MiniPHP;
 
 
+use MiniPHP\Exceptions\InvalidControllerClass;
+use ReflectionClass;
+use ReflectionException;
+
 /**
  * Class App
  * @package MiniPHP
@@ -10,7 +14,7 @@ namespace MiniPHP;
  */
 class App
 {
-    protected $container;
+    protected Container $container;
 
     /**
      * App constructor.
@@ -19,7 +23,7 @@ class App
     {
         $this->container = new Container([
             'router' => function () {
-                return new Router;
+                return new Router();
             },
             'response' => function () {
                 return new Response();
@@ -39,20 +43,45 @@ class App
      * Get route handler
      * @param $uri
      * @param $handler
+     * @throws Exceptions\InvalidContainerKeyException
      */
     public function get($uri, $handler)
     {
-        $this->container->router->addRoute($uri, $handler, ['GET']);
+        $this->container->get('router')->addRoute($uri, $handler, ['GET']);
     }
+
 
     /**
      * Post route handler
      * @param $uri
      * @param $handler
+     * @throws Exceptions\InvalidContainerKeyException
      */
     public function post($uri, $handler)
     {
-        $this->container->router->addRoute($uri, $handler, ['POST']);
+        $this->container->get('router')->addRoute($uri, $handler, ['POST']);
+    }
+
+    /**
+     * Put route handler
+     * @param $uri
+     * @param $handler
+     * @throws Exceptions\InvalidContainerKeyException
+     */
+    public function put($uri, $handler)
+    {
+        $this->container->get('router')->addRoute($uri, $handler, ['PUT']);
+    }
+
+    /**
+     * Delete route handler
+     * @param $uri
+     * @param $handler
+     * @throws Exceptions\InvalidContainerKeyException
+     */
+    public function delete($uri, $handler)
+    {
+        $this->container->get('router')->addRoute($uri, $handler, ['DELETE']);
     }
 
 
@@ -61,19 +90,21 @@ class App
      * @param $uri
      * @param $handler
      * @param string[] $methods
+     * @throws Exceptions\InvalidContainerKeyException
      */
     public function map($uri, $handler, $methods = ['GET'])
     {
-        $this->container->router->addRoute($uri, $handler, $methods);
+        $this->container->get('router')->addRoute($uri, $handler, $methods);
     }
 
 
     /**
      *  Run the application
+     * @throws Exceptions\InvalidContainerKeyException
      */
     public function run()
     {
-        $router = $this->container->router;
+        $router = $this->container->get('router');
         $router->setPath($_SERVER['PATH_INFO'] ?? '/');
 
         $response = $router->getResponse();
@@ -84,21 +115,37 @@ class App
     /**
      * @param $callable
      * @return mixed
+     * @throws Exceptions\InvalidContainerKeyException
+     * @throws ReflectionException
+     * @throws InvalidControllerClass
      */
     public function execute($callable)
     {
-        $response = $this->container->response;
+        $response = $this->container->get('response');
 
-        if (is_array($callable)) { // when the call able is a controller
-            // check if its already instantiated
-            if (!is_object($callable[0])) {
-                $callable[0] = new $callable[0];
+        //-------------  When $callable is a Controller reference
+        if (is_array($callable)) {
+            $controllerClassReference = $callable[0];
+            $method = $callable[1];
+
+            /**
+             * Throw InvalidControllerClass then reference class is invalid
+             */
+            try {
+                new ReflectionClass($controllerClassReference);
+            } catch (ReflectionException $e) {
+                throw new InvalidControllerClass();
             }
 
-            return call_user_func($callable, $response);
+            // check if controller class is not instantiated
+            if (!is_object($controllerClassReference)) {
+                $controllerClassReference = new $controllerClassReference; // instantiate the controller class
+            }
+
+            echo call_user_func([$controllerClassReference, $method], $response);
         }
 
-        return $callable($response);
+        //-------------  When $callable is a Closure
+        echo $callable($response);
     }
-
 }

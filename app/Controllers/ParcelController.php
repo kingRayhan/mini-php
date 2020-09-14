@@ -3,7 +3,6 @@
 
 namespace MiniPHP\Controllers;
 
-use MiniPHP\models\User;
 use MiniPHP\Response;
 
 class ParcelController
@@ -11,14 +10,7 @@ class ParcelController
 
     public function index(Response $response)
     {
-        $user = new User();
-
-        $user->create([
-            "name" => "my Name",
-            "username" => "my username"
-        ]);
-
-        echo "created";
+        echo "Hello";
     }
 
     public function store(Response $response)

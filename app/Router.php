@@ -11,17 +11,17 @@ use MiniPHP\Exceptions\RouteNotFoundException;
  */
 class Router
 {
-    protected $routes = [];
-    protected $methods = [];
+    protected array $routes = [];
+
     /**
      * @var string
      */
-    protected $path = "/";
+    protected string $path = "/";
 
     /**
      * @return array
      */
-    public function getRoutes(): array
+    public function getRoutes()
     {
         return $this->routes;
     }
@@ -35,14 +35,14 @@ class Router
     }
 
     /**
+     * Add new route
      * @param string $uri
-     * @param \Closure $handler
+     * @param $handler
      * @param string[] $methods
      */
     public function addRoute(string $uri, $handler, $methods = ['GET'])
     {
-        $this->routes[$uri] = $handler;
-        $this->methods[$uri] = $methods;
+        $this->routes[$uri] = new Route($methods, $handler);
     }
 
     /**
@@ -52,25 +52,21 @@ class Router
      */
     public function getResponse()
     {
-        $routerPath = $this->path;
-        $methods = $this->methods[$routerPath];
-        $request_verb = $_SERVER['REQUEST_METHOD'];
-
         // Check if requested route exists
-        if(!isset($this->routes[$routerPath]))
-        {
-            header(":",true,404);
+        if (!isset($this->routes[$this->path])) {
+            header(":", true, 404);
             throw new RouteNotFoundException();
         }
 
+        $route = $this->routes[$this->path];
+
         // Check for allowed request verb
-        if(!in_array($request_verb, $methods))
-        {
-            header(":",true,405);
+        if (!in_array($_SERVER['REQUEST_METHOD'], $route->getMethods())) {
+            header(":", true, 405);
             throw new MethodNotAllowedException();
         }
 
-        return $this->routes[$this->path];
+        return $route->getHandler();
     }
 
 }
