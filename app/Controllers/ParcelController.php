@@ -10,7 +10,7 @@ class ParcelController
 
     public function index(Response $response)
     {
-        echo "Hello";
+        return "Hooo";
     }
 
     public function store(Response $response)

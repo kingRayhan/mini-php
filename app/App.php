@@ -116,7 +116,6 @@ class App
      * @param $callable
      * @return mixed
      * @throws Exceptions\InvalidContainerKeyException
-     * @throws ReflectionException
      * @throws InvalidControllerClass
      */
     public function execute($callable)
@@ -142,10 +141,23 @@ class App
                 $controllerClassReference = new $controllerClassReference; // instantiate the controller class
             }
 
-            echo call_user_func([$controllerClassReference, $method], $response);
+            return $this->makeResponse(call_user_func([$controllerClassReference, $method], $response));
         }
 
         //-------------  When $callable is a Closure
-        echo $callable($response);
+        return $this->makeResponse($callable($response));
+
+    }
+
+    public function makeResponse($response)
+    {
+        if (!$response instanceof Response) {
+            echo $response;
+            return;
+        }
+        $httpStatusCode = $response->getStatusCode() ?? 200;
+        http_response_code($httpStatusCode);
+
+        echo $response->getBody();
     }
 }

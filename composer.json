@@ -6,7 +6,8 @@
   },
   "require": {
     "ext-pdo": "*",
-    "vlucas/phpdotenv": "^5.1"
+    "vlucas/phpdotenv": "^5.1",
+    "ext-json": "*"
   },
   "require-dev": {
     "filp/whoops": "^2.7"

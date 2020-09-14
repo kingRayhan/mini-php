@@ -9,28 +9,55 @@ namespace MiniPHP;
  */
 class Response
 {
+
+    private $body;
+    private int $httpStatus = StatusCodes::HTTP_OK;
+
     /**
-     * Get response body
+     * @return mixed
+     * @return mixed
      */
     public function getBody()
     {
-
+        return $this->body;
     }
 
     /**
-     * Get response as json
+     * @param mixed $body
+     * @return Response
      */
-    public function toJson()
+    public function setBody($body)
     {
+        $this->body = $body;
+        return $this;
+    }
 
+
+    /**
+     * @param $body
+     */
+    public function withJSON($body)
+    {
+        return json_encode($this->body);
     }
 
     /**
-     * Set response status code
-     * @param $code
+     * Bind status code with response
+     * @param StatusCodes $status
+     * @return Response
      */
-    public function status($code)
+    public function withStatus($status)
     {
+        $this->httpStatus = $status;
+        return $this;
+    }
 
+    /**
+     * Get response status code
+     * @return int|StatusCodes
+     */
+    public function getStatusCode()
+    {
+        return $this->httpStatus;
     }
 }
