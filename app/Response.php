@@ -38,7 +38,9 @@ class Response
      */
     public function withJSON($body)
     {
-        return json_encode($this->body);
+        header('Content-Type: application/json');
+        $this->body = json_encode($body);
+        return $this;
     }
 
     /**
