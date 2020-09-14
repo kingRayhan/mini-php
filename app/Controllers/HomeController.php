@@ -1,11 +1,25 @@
 <?php
 namespace MiniPHP\Controllers;
 
+use MiniPHP\Response;
+
 class HomeController
 {
-    public function index()
+
+    protected $db;
+
+    /**
+     * HomeController constructor.
+     * @param \PDO $db
+     */
+    public function __construct(\PDO $db)
     {
-        echo "Home controller";
+        $this->db = $db;
+    }
+
+    public function index(Response $response)
+    {
+        var_dump($response);
     }
 
     public function me()

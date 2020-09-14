@@ -6,6 +6,7 @@ namespace MiniPHP;
 /**
  * Class App
  * @package MiniPHP
+ * @author kingrayhan
  */
 class App
 {
@@ -20,6 +21,9 @@ class App
             'router' => function () {
                 return new Router;
             },
+            'response' => function () {
+                return new Response();
+            }
         ]);
     }
 
@@ -83,6 +87,7 @@ class App
      */
     public function execute($callable)
     {
+        $response = $this->container->response;
 
         if (is_array($callable)) { // when the call able is a controller
             // check if its already instantiated
@@ -90,10 +95,10 @@ class App
                 $callable[0] = new $callable[0];
             }
 
-            return call_user_func($callable);
+            return call_user_func($callable, $response);
         }
 
-        return $callable();
+        return $callable($response);
     }
 
 }
