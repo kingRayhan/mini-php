@@ -2,8 +2,7 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use MiniPHP\App;
-use MiniPHP\Controllers\ParcelController;
-use MiniPHP\Response;
+use MiniPHP\Orm;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -17,23 +16,18 @@ try {
 $app = new App();
 $container = $app->getContainer();
 
+/**
+ * Load orm to App Container
+ */
+$orm = new Orm();
+$container['orm'] = $orm->boot();
+
+
 $whoops = new Run;
 $whoops->pushHandler(new PrettyPageHandler);
 $whoops->register();
 
-
-$app->get('/', [ParcelController::class, 'index']);
-
-$app->get('/test', function (Response $response) {
-
-    $posts = [
-        ['id' => '1', 'title' => 'title 1'],
-        ['id' => '2', 'title' => 'title 2'],
-        ['id' => '3', 'title' => 'title 3'],
-    ];
-
-    return $response->toJson($posts);
-});
+require __DIR__ . '/routes.php';
 
 $app->run();
 
