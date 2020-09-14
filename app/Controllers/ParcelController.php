@@ -3,23 +3,22 @@
 
 namespace MiniPHP\Controllers;
 
-use MiniPHP\Response;
+use MiniPHP\models\User;
+use MiniPHP\StatusCodes;
 
 class ParcelController
 {
 
-    public function index(Response $response)
+    public function index()
     {
-        $posts = [
-            ['id' => '1', 'title' => 'title 1'],
-            ['id' => '2', 'title' => 'title 2'],
-            ['id' => '3', 'title' => 'title 3'],
-        ];
-        return $response->setBody($posts);
+        $users = User::all();
+        return response()->withJSON($users)->withStatus(StatusCodes::HTTP_CREATED);
     }
 
-    public function store(Response $response)
-    {
 
+    public function store()
+    {
+        $user = User::create(request()->only(['name']));
+        return response()->withJSON($user);
     }
 }

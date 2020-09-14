@@ -152,6 +152,11 @@ class App
     public function makeResponse($response)
     {
         if (!$response instanceof Response) {
+
+            if (!is_string($response)) {
+                dd($response);
+            }
+
             echo $response;
             return;
         }

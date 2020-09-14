@@ -39,6 +39,7 @@ class Response
     public function withJSON($body)
     {
         header('Content-Type: application/json');
+
         $this->body = json_encode($body);
         return $this;
     }
@@ -61,5 +62,11 @@ class Response
     public function getStatusCode()
     {
         return $this->httpStatus;
+    }
+
+
+    public function view($template, array $payload)
+    {
+        return View::render($template, $payload);
     }
 }

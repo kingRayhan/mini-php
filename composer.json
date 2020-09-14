@@ -2,14 +2,22 @@
   "autoload": {
     "psr-4": {
       "MiniPHP\\": "app"
-    }
+    },
+    "files": [
+      "app/helpers.php"
+    ]
   },
   "require": {
     "ext-pdo": "*",
     "vlucas/phpdotenv": "^5.1",
-    "ext-json": "*"
+    "ext-json": "*",
+    "illuminate/database": "^8.2",
+    "twig/twig": "^3.0",
+    "illuminate/events": "^8.2",
+    "illuminate/pagination": "^8.2"
   },
   "require-dev": {
-    "filp/whoops": "^2.7"
+    "filp/whoops": "^2.7",
+    "symfony/var-dumper": "^5.1"
   }
 }

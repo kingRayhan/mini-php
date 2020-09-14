@@ -1,0 +1,2 @@
+- Set different type of response when 'Content-Type' to json
+- Multiple methods not working on same endpoint
