@@ -27,6 +27,9 @@ class App
             },
             'response' => function () {
                 return new Response();
+            },
+            'request' => function () {
+                return new Request();
             }
         ]);
     }
@@ -121,6 +124,7 @@ class App
     public function execute($callable)
     {
         $response = $this->container->get('response');
+        $request = $this->container->get('request');
 
         //-------------  When $callable is a Controller reference
         if (is_array($callable)) {
@@ -141,7 +145,7 @@ class App
                 $controllerClassReference = new $controllerClassReference; // instantiate the controller class
             }
 
-            return $this->makeResponse(call_user_func([$controllerClassReference, $method], $response));
+            return $this->makeResponse(call_user_func([$controllerClassReference, $method], $request, $response));
         }
 
         //-------------  When $callable is a Closure
