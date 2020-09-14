@@ -37,7 +37,7 @@ class Request
     {
         $body = [];
         foreach ($inputs as $key) {
-            $body[$key] = $this->all()[$key];
+            $body[$key] = $this->all()[$key] ?? null;
         }
 
         return $body;
@@ -55,5 +55,18 @@ class Request
         }
 
         return $this->all();
+    }
+
+    /**
+     * Get query string value via key
+     * @param string $key
+     * @return array|mixed|string
+     */
+    public function query(string $key)
+    {
+        if (!isset($key)) {
+            return $_GET;
+        }
+        return $_GET[$key] ?? '';
     }
 }
