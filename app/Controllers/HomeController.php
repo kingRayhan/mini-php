@@ -1,38 +1,27 @@
 <?php
+
 namespace MiniPHP\Controllers;
 
+use MiniPHP\Request;
 use MiniPHP\Response;
 
+/**
+ * Home Controller
+ * Class HomeController
+ * @package MiniPHP\Controllers
+ */
 class HomeController
 {
 
-    protected $db;
 
     /**
-     * HomeController constructor.
-     * @param \PDO $db
+     * GET index
+     * @param Request $request
+     * @param Response $response
+     * @return string
      */
-    public function __construct(\PDO $db)
+    public function index(Request $request, Response $response)
     {
-        $this->db = $db;
-    }
-
-    public function index(Response $response)
-    {
-        var_dump($response);
-    }
-
-    public function me()
-    {
-        echo "me controller";
-    }
-
-    public function hi()
-    {
-        echo "hi controller";
-    }
-    public function signup()
-    {
-        echo "signup controller";
+        return $response->view('welcome');
     }
 }

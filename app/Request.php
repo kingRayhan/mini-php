@@ -59,10 +59,10 @@ class Request
 
     /**
      * Get query string value via key
-     * @param string $key
+     * @param string|null $key
      * @return array|mixed|string
      */
-    public function query(string $key)
+    public function query(string $key = null)
     {
         if (!isset($key)) {
             return $_GET;

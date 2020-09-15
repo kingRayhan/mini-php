@@ -1,11 +1,15 @@
 <?php
 
+use MiniPHP\Controllers\HomeController;
+
 /**
  * -------------------------------------------------------
  *      MiniPHP Routes
  * -------------------------------------------------------
  */
 
-use MiniPHP\Controllers\ParcelController;
+$app->get('/', [HomeController::class, 'index']);
 
-$app->get('/', [ParcelController::class, 'index']);
+$app->get('/test', function (\MiniPHP\Request $request, \MiniPHP\Response $response) {
+    return $response->withJSON($request->query());
+});

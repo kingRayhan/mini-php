@@ -65,7 +65,7 @@ class Response
     }
 
 
-    public function view($template, array $payload)
+    public function view($template, array $payload = [])
     {
         return View::render($template, $payload);
     }
