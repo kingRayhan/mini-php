@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
+session_start();
+
 use MiniPHP\App;
 use MiniPHP\Orm;
 use Whoops\Handler\PrettyPageHandler;
