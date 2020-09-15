@@ -1,11 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+use MiniPHP\Request;
 
-function toJSON($data)
-{
-    return json_encode($data);
-}
+require_once __DIR__ . '/../vendor/autoload.php';
 
 /**
  * Response object helper
@@ -16,7 +13,27 @@ function response()
     return new \MiniPHP\Response();
 }
 
+/**
+ * @param $data
+ * @return false|string
+ */
+function toJSON($data)
+{
+    return response()->withJSON($data);
+}
+
+/**
+ * @return Request
+ */
 function request()
 {
-    return new \MiniPHP\Request();
+    return new Request();
+}
+
+/**
+ * @return \MiniPHP\Flash
+ */
+function flash()
+{
+    return new \MiniPHP\Flash();
 }

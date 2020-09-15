@@ -22,6 +22,8 @@ class HomeController
      */
     public function index(Request $request, Response $response)
     {
+        flash()->add('test', 'this is a test flash');
+
         return $response->view('welcome');
     }
 }

@@ -9,3 +9,7 @@ use MiniPHP\Controllers\HomeController;
  */
 
 $app->get('/', [HomeController::class, 'index']);
+
+$app->get('/test', function () {
+    return flash()->get('test');
+});
