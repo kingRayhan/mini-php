@@ -11,15 +11,6 @@ class Request
 {
 
     /**
-     * Get request method
-     * @return mixed
-     */
-    public function getRequestMethod()
-    {
-        return $_SERVER['REQUEST_METHOD'];
-    }
-
-    /**
      * Get all body params
      * @return array
      */
@@ -30,13 +21,13 @@ class Request
 
     /**
      * Fetch only body params which is matched with $input
-     * @param array $inputs
+     * @param array $keys
      * @return array
      */
-    public function only(array $inputs)
+    public function only(array $keys)
     {
         $body = [];
-        foreach ($inputs as $key) {
+        foreach ($keys as $key) {
             $body[$key] = $this->all()[$key] ?? null;
         }
 
@@ -45,12 +36,12 @@ class Request
 
     /**
      * Fetch all body property except $inputs array
-     * @param array $inputs
+     * @param array $keys
      * @return array
      */
-    public function except(array $inputs)
+    public function except(array $keys)
     {
-        foreach ($inputs as $key) {
+        foreach ($keys as $key) {
             unset($this->all()[$key]);
         }
 
@@ -68,5 +59,54 @@ class Request
             return $_GET;
         }
         return $_GET[$key] ?? '';
+    }
+
+
+    /**
+     * Get request method
+     * @return mixed
+     */
+    public function method()
+    {
+        return $_SERVER['REQUEST_METHOD'];
+    }
+
+
+    /**
+     * Get request uri
+     * @return string
+     */
+    public function path()
+    {
+        return $_SERVER['REQUEST_URI'];
+    }
+
+    /**
+     * Get request protocol
+     * @return string
+     */
+    public function protocol()
+    {
+        return ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+    }
+
+
+    /**
+     * Get request host
+     * @return string
+     */
+    public function host()
+    {
+        return $_SERVER['HTTP_HOST'];
+    }
+
+
+    /**
+     * Get request full url
+     * @return string
+     */
+    public function fullUrl()
+    {
+        return $this->protocol() . $this->host() . $this->path();
     }
 }

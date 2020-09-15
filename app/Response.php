@@ -14,6 +14,7 @@ class Response
     private int $httpStatus = StatusCodes::HTTP_OK;
 
     /**
+     * Get response body which is setted by setBody
      * @return mixed
      * @return mixed
      */
@@ -23,6 +24,7 @@ class Response
     }
 
     /**
+     * Set response body
      * @param mixed $body
      * @return Response
      */
@@ -34,7 +36,9 @@ class Response
 
 
     /**
+     * Get response body as JSON format
      * @param $body
+     * @return Response
      */
     public function withJSON($body)
     {
@@ -45,13 +49,13 @@ class Response
     }
 
     /**
-     * Bind status code with response
-     * @param StatusCodes $status
+     * Set Status code to Response
+     * @param StatusCodes|int $statusCode
      * @return Response
      */
-    public function withStatus($status)
+    public function withStatus($statusCode)
     {
-        $this->httpStatus = $status;
+        $this->httpStatus = $statusCode;
         return $this;
     }
 
@@ -64,9 +68,18 @@ class Response
         return $this->httpStatus;
     }
 
-
+    /**
+     * Show twig template
+     * @param $template
+     * @param array $payload
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function view($template, array $payload = [])
     {
         return View::render($template, $payload);
     }
 }
+
