@@ -149,7 +149,7 @@ class App
         }
 
         //-------------  When $callable is a Closure
-        return $this->makeResponse($callable($response));
+        return $this->makeResponse($callable($request, $response));
 
     }
 

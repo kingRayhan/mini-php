@@ -1,11 +1,11 @@
 <?php
 
+use MiniPHP\Controllers\HomeController;
+
 /**
  * -------------------------------------------------------
  *      MiniPHP Routes
  * -------------------------------------------------------
  */
 
-use MiniPHP\Controllers\ParcelController;
-
-$app->get('/', [ParcelController::class, 'index']);
+$app->get('/', [HomeController::class, 'index']);

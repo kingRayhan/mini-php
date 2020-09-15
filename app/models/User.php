@@ -12,9 +12,4 @@ class User extends Model
 {
     protected $table = 'users';
     protected $fillable = ['name'];
-    
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
-    }
 }
