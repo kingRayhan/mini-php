@@ -12,8 +12,6 @@ use MiniPHP\Response;
  */
 class HomeController
 {
-
-
     /**
      * GET index
      * @param Request $request
@@ -22,8 +20,6 @@ class HomeController
      */
     public function index(Request $request, Response $response)
     {
-        flash()->add('test', 'this is a test flash');
-
         return $response->view('welcome');
     }
 }

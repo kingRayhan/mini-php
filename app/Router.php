@@ -45,6 +45,7 @@ class Router
         $this->routes[$uri] = new Route($methods, $handler);
     }
 
+
     /**
      * @return mixed
      * @throws MethodNotAllowedException
