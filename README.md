@@ -8,10 +8,10 @@ A minimal PHP framework for small projects. Lightweight routing, Twig views, Elo
 
 ## Requirements
 
-- PHP 7.4+
+- PHP 8.1+
 - Composer
 - PDO, JSON extensions
-- Apache with `mod_rewrite` (or equivalent)
+- Apache with `mod_rewrite`, or PHP's built-in server
 
 ---
 
@@ -25,7 +25,13 @@ cp .env.example .env
 # Edit .env with your database credentials
 ```
 
-Point your document root to the `public` folder (or use the project root with the included `.htaccess`).
+**Run with PHP's built-in server:**
+
+```bash
+php -S localhost:8000 index.php
+```
+
+Or point your Apache/Nginx document root to the project root (`.htaccess` is included).
 
 ---
 
@@ -35,36 +41,39 @@ Point your document root to the `public` folder (or use the project root with th
 
 Define routes in `routes.php`. Handlers can be closures or controller class methods.
 
-**GET, POST, PUT, DELETE:**
+**Closures:**
 
 ```php
-// Closure
 $app->get('/', function ($request, $response) {
     return $response->view('welcome');
 });
 
 $app->post('/submit', function ($request, $response) {
     $data = $request->only(['name', 'email']);
-    // ...
     return $response->withJSON(['ok' => true]);
-});
-
-$app->put('/items/1', function ($request, $response) {
-    return $response->withStatus(200)->setBody('Updated');
-});
-
-$app->delete('/items/1', function ($request, $response) {
-    return $response->withStatus(204);
 });
 ```
 
 **Controller reference:**
 
 ```php
-use MiniPHP\Controllers\HomeController;
-
 $app->get('/', [HomeController::class, 'index']);
 $app->post('/login', [AuthController::class, 'login']);
+```
+
+**Path parameters:**
+
+```php
+$app->get('/users/{id}', function ($request, $response) {
+    $id = $request->param('id');
+    return $response->withJSON(['id' => $id]);
+});
+
+$app->get('/posts/{postId}/comments/{commentId}', function ($request, $response) {
+    $postId = $request->param('postId');
+    $commentId = $request->param('commentId');
+    // ...
+});
 ```
 
 **Multiple HTTP methods for one URI:**
@@ -80,8 +89,12 @@ $app->map('/api/resource', [ApiController::class, 'handle'], ['GET', 'POST']);
 Injected into route handlers; use it to read input and request info.
 
 ```php
-$app->get('/example', function ($request, $response) {
-    // All input (GET + POST)
+$app->get('/users/{id}', function ($request, $response) {
+    // Path parameters
+    $id = $request->param('id');
+    $allParams = $request->param();       // ['id' => '42']
+
+    // All input (form-encoded + JSON body + query string)
     $all = $request->all();
 
     // Only specific keys
@@ -90,16 +103,19 @@ $app->get('/example', function ($request, $response) {
     // All except certain keys
     $filtered = $request->except(['password', 'token']);
 
+    // JSON body (parsed automatically when Content-Type is application/json)
+    $json = $request->json();
+
     // Query string
     $page = $request->query('page');
-    $allQuery = $request->query();  // entire $_GET
+    $allQuery = $request->query();        // entire $_GET
 
     // Request info
-    $method = $request->method();       // GET, POST, etc.
-    $path   = $request->path();         // /example
-    $url    = $request->fullUrl();      // https://example.com/example
-    $host   = $request->host();
-    $protocol = $request->protocol();  // https:// or http://
+    $method   = $request->method();       // GET, POST, etc.
+    $path     = $request->path();         // /users/42
+    $url      = $request->fullUrl();      // https://example.com/users/42
+    $host     = $request->host();
+    $protocol = $request->protocol();     // https:// or http://
 
     return $response->withJSON($data);
 });
@@ -313,12 +329,15 @@ Group routes under a common prefix with `$app->group()`. Groups can be nested.
 ```php
 $app->group('/api', function ($app) {
     $app->group('/todos', function ($app) {
-        $app->get('', [TodoController::class, 'index']);       // GET /api/todos
-        $app->post('/create', [TodoController::class, 'store']); // POST /api/todos/create
+        $app->get('', [TodoController::class, 'index']);        // GET  /api/todos
+        $app->post('', [TodoController::class, 'store']);       // POST /api/todos
+        $app->get('/{id}', [TodoController::class, 'show']);    // GET  /api/todos/1
+        $app->put('/{id}', [TodoController::class, 'update']);  // PUT  /api/todos/1
+        $app->delete('/{id}', [TodoController::class, 'destroy']); // DELETE /api/todos/1
     });
 
     $app->group('/users', function ($app) {
-        $app->get('', [UserController::class, 'index']);       // GET /api/users
+        $app->get('', [UserController::class, 'index']);        // GET /api/users
     });
 });
 ```
