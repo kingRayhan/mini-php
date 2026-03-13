@@ -9,14 +9,33 @@ namespace MiniPHP;
  */
 class Request
 {
+    private ?array $jsonBody = null;
 
     /**
-     * Get all body params
+     * Get all body params (form-encoded, query string, and JSON)
      * @return array
      */
     public function all()
     {
-        return $_REQUEST;
+        return array_merge($_REQUEST, $this->json());
+    }
+
+    /**
+     * Get parsed JSON body
+     * @return array
+     */
+    public function json(): array
+    {
+        if ($this->jsonBody === null) {
+            $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+            if (str_contains($contentType, 'application/json')) {
+                $raw = file_get_contents('php://input');
+                $this->jsonBody = json_decode($raw, true) ?? [];
+            } else {
+                $this->jsonBody = [];
+            }
+        }
+        return $this->jsonBody;
     }
 
     /**
@@ -41,11 +60,11 @@ class Request
      */
     public function except(array $keys)
     {
+        $data = $this->all();
         foreach ($keys as $key) {
-            unset($this->all()[$key]);
+            unset($data[$key]);
         }
-
-        return $this->all();
+        return $data;
     }
 
     /**
@@ -108,5 +127,15 @@ class Request
     public function fullUrl()
     {
         return $this->protocol() . $this->host() . $this->path();
+    }
+
+    /**
+     * Validate request data against rules
+     * @param array $rules
+     * @return Validator
+     */
+    public function validate(array $rules): Validator
+    {
+        return Validator::make($this->all(), $rules);
     }
 }

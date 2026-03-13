@@ -28,7 +28,11 @@ class View
     {
         $baseDir = __DIR__ . '/../';
 
-        $loader = new FilesystemLoader($baseDir . '/views');
+        $paths = [$baseDir . '/views'];
+        if (is_dir($baseDir . '/example/views')) {
+            $paths[] = $baseDir . '/example/views';
+        }
+        $loader = new FilesystemLoader($paths);
         $twig = new Environment($loader, [
             'cache' => $baseDir . '/caches/views',
         ]);

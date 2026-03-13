@@ -31,7 +31,7 @@ class Container implements ArrayAccess
      * @param mixed $offset
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return array_key_exists($offset, $this->items);
     }
@@ -41,7 +41,7 @@ class Container implements ArrayAccess
      * @return mixed
      * @throws InvalidContainerKeyException
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         // Throw exception when key is not exits on container
         if (!$this->has($offset)) throw new InvalidContainerKeyException();
@@ -70,15 +70,15 @@ class Container implements ArrayAccess
      * @param mixed $value
      * @return mixed
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
-        return $this->items[$offset] = $value;
+        $this->items[$offset] = $value;
     }
 
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->items[$offset]);
     }

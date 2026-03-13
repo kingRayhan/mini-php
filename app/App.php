@@ -15,6 +15,7 @@ use ReflectionException;
 class App
 {
     protected Container $container;
+    protected string $groupPrefix = '';
 
     /**
      * App constructor.
@@ -48,9 +49,17 @@ class App
      * @param $handler
      * @throws Exceptions\InvalidContainerKeyException
      */
+    public function group(string $prefix, callable $callback)
+    {
+        $previousPrefix = $this->groupPrefix;
+        $this->groupPrefix = $previousPrefix . $prefix;
+        $callback($this);
+        $this->groupPrefix = $previousPrefix;
+    }
+
     public function get($uri, $handler)
     {
-        $this->container->get('router')->addRoute($uri, $handler, ['GET']);
+        $this->container->get('router')->addRoute($this->groupPrefix . $uri, $handler, ['GET']);
     }
 
 
@@ -62,7 +71,7 @@ class App
      */
     public function post($uri, $handler)
     {
-        $this->container->get('router')->addRoute($uri, $handler, ['POST']);
+        $this->container->get('router')->addRoute($this->groupPrefix . $uri, $handler, ['POST']);
     }
 
     /**
@@ -73,7 +82,7 @@ class App
      */
     public function put($uri, $handler)
     {
-        $this->container->get('router')->addRoute($uri, $handler, ['PUT']);
+        $this->container->get('router')->addRoute($this->groupPrefix . $uri, $handler, ['PUT']);
     }
 
     /**
@@ -84,7 +93,7 @@ class App
      */
     public function delete($uri, $handler)
     {
-        $this->container->get('router')->addRoute($uri, $handler, ['DELETE']);
+        $this->container->get('router')->addRoute($this->groupPrefix . $uri, $handler, ['DELETE']);
     }
 
 
@@ -97,7 +106,7 @@ class App
      */
     public function map($uri, $handler, $methods = ['GET'])
     {
-        $this->container->get('router')->addRoute($uri, $handler, $methods);
+        $this->container->get('router')->addRoute($this->groupPrefix . $uri, $handler, $methods);
     }
 
 

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace MiniPHP\Exceptions;
-
 
 class RouteNotFoundException extends \Exception
 {

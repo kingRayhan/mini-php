@@ -1,7 +1,8 @@
 {
   "autoload": {
     "psr-4": {
-      "MiniPHP\\": "app"
+      "MiniPHP\\": "app",
+      "Example\\": "example/app"
     },
     "files": [
       "app/helpers.php"
@@ -9,16 +10,16 @@
   },
   "require": {
     "ext-pdo": "*",
-    "vlucas/phpdotenv": "^5.1",
     "ext-json": "*",
-    "illuminate/database": "^8.2",
-    "twig/twig": "^3.0",
-    "illuminate/events": "^8.2",
-    "illuminate/pagination": "^8.2",
+    "vlucas/phpdotenv": "^5.6",
+    "illuminate/database": "^11.0",
+    "illuminate/events": "^11.0",
+    "illuminate/pagination": "^11.0",
+    "twig/twig": "^3.14",
     "slim/flash": "^0.4.0"
   },
   "require-dev": {
-    "filp/whoops": "^2.7",
-    "symfony/var-dumper": "^5.1"
+    "filp/whoops": "^2.16",
+    "symfony/var-dumper": "^7.0"
   }
 }

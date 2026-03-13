@@ -1,4 +1,14 @@
 <?php
+
+// PHP built-in server: serve static files directly, set PATH_INFO for routing
+if (php_sapi_name() === 'cli-server') {
+    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    if ($uri !== '/' && file_exists(__DIR__ . $uri)) {
+        return false;
+    }
+    $_SERVER['PATH_INFO'] = $uri;
+}
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 session_start();
@@ -29,7 +39,10 @@ $whoops = new Run;
 $whoops->pushHandler(new PrettyPageHandler);
 $whoops->register();
 
-require __DIR__ . '/routes.php';
+$routesFile = file_exists(__DIR__ . '/example/routes.php')
+    ? __DIR__ . '/example/routes.php'
+    : __DIR__ . '/routes.php';
+require $routesFile;
 
 $app->run();
 

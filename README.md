@@ -244,6 +244,87 @@ return $response->view('dashboard', [
 
 ---
 
+### Validation
+
+Validate request data with `$request->validate()`. Rules are pipe-separated, Laravel-style.
+
+```php
+public function store(Request $request, Response $response)
+{
+    $validator = $request->validate([
+        'title' => 'required|string|min:3|max:255',
+        'email' => 'required|email',
+        'status' => 'in:active,inactive',
+    ]);
+
+    if ($validator->fails()) {
+        return $response
+            ->withStatus(400)
+            ->withJSON(['errors' => $validator->errors()]);
+    }
+
+    $data = $validator->validated();
+    // $data contains only the validated fields
+}
+```
+
+**Error response format:**
+
+```json
+{
+  "errors": {
+    "title": ["title is required"],
+    "email": ["email must be a valid email"]
+  }
+}
+```
+
+**Available rules:**
+
+| Rule | Description |
+|------|-------------|
+| `required` | Must be present and non-empty |
+| `string` | Must be a string |
+| `integer` | Must be an integer |
+| `numeric` | Must be numeric |
+| `email` | Must be a valid email |
+| `boolean` | Must be boolean-like (true/false/0/1) |
+| `min:n` | Minimum string length |
+| `max:n` | Maximum string length |
+| `in:a,b,c` | Must be one of the listed values |
+
+You can also use `Validator::make()` directly:
+
+```php
+use MiniPHP\Validator;
+
+$validator = Validator::make($data, [
+    'name' => 'required|string',
+    'age'  => 'required|integer',
+]);
+```
+
+---
+
+### Route groups
+
+Group routes under a common prefix with `$app->group()`. Groups can be nested.
+
+```php
+$app->group('/api', function ($app) {
+    $app->group('/todos', function ($app) {
+        $app->get('', [TodoController::class, 'index']);       // GET /api/todos
+        $app->post('/create', [TodoController::class, 'store']); // POST /api/todos/create
+    });
+
+    $app->group('/users', function ($app) {
+        $app->get('', [UserController::class, 'index']);       // GET /api/users
+    });
+});
+```
+
+---
+
 ### Helpers
 
 Global helpers are available after Composer autoload (see `app/helpers.php`).
@@ -305,6 +386,7 @@ mini-php/
 │   ├── Response.php      # HTTP response
 │   ├── View.php          # Twig renderer
 │   ├── Orm.php           # Eloquent bootstrap
+│   ├── Validator.php     # Request validation
 │   ├── Flash.php         # Flash messages
 │   ├── StatusCodes.php   # HTTP status constants
 │   ├── helpers.php       # Global helpers
