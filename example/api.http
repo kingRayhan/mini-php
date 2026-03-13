@@ -1,0 +1,45 @@
+@host = http://localhost:8000
+
+### List all todos
+GET {{host}}/api/todos
+
+### Get a single todo
+GET {{host}}/api/todos/1
+
+### Create a todo
+POST {{host}}/api/todos
+Content-Type: application/json
+
+{
+  "title": "Buy groceries",
+  "completed": false
+}
+
+### Create a todo (validation error - title too short)
+POST {{host}}/api/todos
+Content-Type: application/json
+
+{
+  "title": "Hi"
+}
+
+### Create a todo (validation error - missing title)
+POST {{host}}/api/todos
+Content-Type: application/json
+
+{}
+
+### Update a todo
+PUT {{host}}/api/todos/1
+Content-Type: application/json
+
+{
+  "title": "Learn MiniPHP framework",
+  "completed": true
+}
+
+### Delete a todo
+DELETE {{host}}/api/todos/2
+
+### Get a non-existent todo (404)
+GET {{host}}/api/todos/999

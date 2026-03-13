@@ -2,4 +2,3 @@ vendor
 .env*
 .idea
 caches
-example/
