@@ -13,16 +13,19 @@ class Route
 {
     private array $methods;
     private $handler;
+    private string $uri;
 
     /**
      * Route constructor.
      * @param array $methods
      * @param $handler
+     * @param string $uri
      */
-    public function __construct(array $methods, $handler)
+    public function __construct(array $methods, $handler, string $uri = '')
     {
         $this->methods = $methods;
         $this->handler = $handler;
+        $this->uri = $uri;
     }
 
     /**
@@ -34,11 +37,18 @@ class Route
     }
 
     /**
-     * @return Closure
+     * @return Closure|array
      */
     public function getHandler()
     {
         return $this->handler;
     }
-    
+
+    /**
+     * @return string
+     */
+    public function getUri(): string
+    {
+        return $this->uri;
+    }
 }

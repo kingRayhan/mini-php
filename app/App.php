@@ -119,8 +119,12 @@ class App
         $router = $this->container->get('router');
         $router->setPath($_SERVER['PATH_INFO'] ?? '/');
 
-        $response = $router->getResponse();
-        $this->execute($response);
+        $handler = $router->getResponse();
+
+        $request = $this->container->get('request');
+        $request->setParams($router->getParams());
+
+        $this->execute($handler);
     }
 
 

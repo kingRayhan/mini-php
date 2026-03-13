@@ -10,6 +10,7 @@ namespace MiniPHP;
 class Request
 {
     private ?array $jsonBody = null;
+    private array $params = [];
 
     /**
      * Get all body params (form-encoded, query string, and JSON)
@@ -127,6 +128,35 @@ class Request
     public function fullUrl()
     {
         return $this->protocol() . $this->host() . $this->path();
+    }
+
+    /**
+     * Validate request data against rules
+     * @param array $rules
+     * @return Validator
+     */
+    /**
+     * Set path parameters (called by the framework)
+     * @param array $params
+     * @return void
+     */
+    public function setParams(array $params): void
+    {
+        $this->params = $params;
+    }
+
+    /**
+     * Get a path parameter by name
+     * @param string|null $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function param(?string $key = null, mixed $default = null): mixed
+    {
+        if ($key === null) {
+            return $this->params;
+        }
+        return $this->params[$key] ?? $default;
     }
 
     /**
