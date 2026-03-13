@@ -81,5 +81,17 @@ class Response
     {
         return View::render($template, $payload);
     }
+
+    /**
+     * Redirect to a URL
+     * @param string $url
+     * @param int $statusCode 302 (temporary) or 301 (permanent)
+     * @return void
+     */
+    public function redirect(string $url, int $statusCode = StatusCodes::HTTP_FOUND): void
+    {
+        header('Location: ' . $url, true, $statusCode);
+        exit;
+    }
 }
 

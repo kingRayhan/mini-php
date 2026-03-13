@@ -77,6 +77,7 @@ Define routes in `routes.php`. Handlers can be closures or controller class meth
 **Closures:**
 
 ```php
+// Closure
 $app->get('/', function ($request, $response) {
     return $response->view('welcome');
 });
@@ -171,11 +172,19 @@ return $response->view('users.show', ['user' => $user]);
 // JSON
 return $response->withJSON(['id' => 1, 'name' => 'Jane']);
 
-// Custom status code (use StatusCodes constants)
-use MiniPHP\StatusCodes;
-
+// Custom status code
 return $response->withStatus(StatusCodes::HTTP_CREATED)->withJSON($newItem);
 return $response->withStatus(404)->setBody('Not found');
+
+// Redirect (302 temporary by default)
+return $response->redirect('/dashboard');
+
+// Permanent redirect (301)
+return $response->redirect('/new-url', 301);
+
+// Redirect after form submission
+flash()->add('success', 'Created!');
+return $response->redirect('/posts');
 ```
 
 ---
