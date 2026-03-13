@@ -1,8 +1,41 @@
 # MiniPHP
 
-A minimal PHP framework for small projects. Lightweight routing, Twig views, Eloquent ORM, and a simple container—everything you need to build simple web apps and APIs.
+A PHP micro-framework that gets out of your way. ~1,200 lines of framework code. No scaffolding, no CLI tools, no magic — just the essentials to build web apps and APIs fast.
 
 **[Documentation](https://miniphp.netlify.app/)**
+
+---
+
+## Why MiniPHP?
+
+Not every project needs Laravel or Symfony. If you're building a small API, a webhook handler, a prototype, an internal tool, or a simple website — a full framework is overkill. You spend more time configuring it than writing your actual code.
+
+MiniPHP gives you the parts that matter and nothing else:
+
+|                     | MiniPHP      | Laravel     | Slim      | Lumen    |
+| ------------------- | ------------ | ----------- | --------- | -------- |
+| Framework code      | ~1,200 lines | ~400k lines | ~6k lines | Archived |
+| Install size        | ~15 MB       | ~80 MB      | ~30 MB    | -        |
+| Time to first route | Seconds      | Minutes     | Seconds   | -        |
+| Routing with params | Yes          | Yes         | Yes       | Yes      |
+| Twig templates      | Built-in     | Blade       | Add-on    | Blade    |
+| Eloquent ORM        | Built-in     | Built-in    | Add-on    | Built-in |
+| Validation          | Built-in     | Built-in    | Add-on    | Built-in |
+| Learning curve      | Read once    | Weeks       | Read once | Days     |
+
+### Choose MiniPHP when you need:
+
+- A REST API in minutes, not hours
+- A small web app without a 50-file boilerplate
+- Eloquent models without the rest of Laravel
+- Something you can read end-to-end in one sitting
+- A starting point you fully understand and control
+
+### Choose something else when you need:
+
+- Auth, queues, jobs, scheduling, broadcasting (use Laravel)
+- Middleware pipeline, PSR-15, DI autowiring (use Slim)
+- Enterprise-grade architecture, bundles, DI (use Symfony)
 
 ---
 
@@ -18,7 +51,7 @@ A minimal PHP framework for small projects. Lightweight routing, Twig views, Elo
 ## Installation
 
 ```bash
-git clone https://github.com/your-username/mini-php.git
+git clone https://github.com/kingrayhan/mini-php.git
 cd mini-php
 composer install
 cp .env.example .env
@@ -297,17 +330,17 @@ public function store(Request $request, Response $response)
 
 **Available rules:**
 
-| Rule | Description |
-|------|-------------|
-| `required` | Must be present and non-empty |
-| `string` | Must be a string |
-| `integer` | Must be an integer |
-| `numeric` | Must be numeric |
-| `email` | Must be a valid email |
-| `boolean` | Must be boolean-like (true/false/0/1) |
-| `min:n` | Minimum string length |
-| `max:n` | Maximum string length |
-| `in:a,b,c` | Must be one of the listed values |
+| Rule       | Description                           |
+| ---------- | ------------------------------------- |
+| `required` | Must be present and non-empty         |
+| `string`   | Must be a string                      |
+| `integer`  | Must be an integer                    |
+| `numeric`  | Must be numeric                       |
+| `email`    | Must be a valid email                 |
+| `boolean`  | Must be boolean-like (true/false/0/1) |
+| `min:n`    | Minimum string length                 |
+| `max:n`    | Maximum string length                 |
+| `in:a,b,c` | Must be one of the listed values      |
 
 You can also use `Validator::make()` directly:
 
