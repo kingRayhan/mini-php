@@ -1,16 +1,68 @@
 {% extends "layouts/base.twig" %}
 
 {% block content %}
+	<div class="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden">
 
-    <div class="container mx-auto">
-        <div class="text-center mt-6">
-            <h1 class="text-5xl">MiniPHP</h1>
-        </div>
-        <p>MiniPHP is a PHP micro framework that helps you quickly write simple yet powerful web applications and
-            APIs.
-            At its core, MiniPHP is a dispatcher that receives an HTTP request, invokes an appropriate callback
-            routine,
-            and returns an HTTP response. That’s it.</p>
-    </div>
+		<div class="absolute inset-0 bg-gradient-to-br from-violet-950/40 via-gray-950 to-emerald-950/30"></div>
+		<div class="absolute top-1/4 -left-32 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl"></div>
+		<div class="absolute bottom-1/4 -right-32 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl"></div>
 
+		<div class="relative z-10 max-w-2xl text-center">
+			<h1 class="text-6xl sm:text-7xl font-bold tracking-tight mb-4">
+				Mini<span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-emerald-400">PHP</span>
+			</h1>
+
+			<p class="text-lg sm:text-xl text-gray-400 leading-relaxed mb-10 max-w-lg mx-auto">
+				A PHP micro-framework that gets out of your way. Routing, Eloquent ORM, Twig views, validation — nothing more, nothing less.
+			</p>
+
+			<div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+				<a href="https://github.com/kingRayhan/mini-php" class="px-6 py-3 rounded-lg border border-gray-700 text-gray-300 font-medium hover:border-gray-500 hover:text-white transition">
+
+					GitHub
+				</a>
+			</div>
+
+			<div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+				<div>
+					<div class="text-2xl font-bold text-white">4</div>
+					<div class="text-xs text-gray-500 mt-1 uppercase tracking-wider">HTTP Verbs</div>
+				</div>
+				<div>
+					<div class="text-2xl font-bold text-white">~15 MB</div>
+					<div class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Install Size</div>
+				</div>
+				<div>
+					<div class="text-2xl font-bold text-white">0</div>
+					<div class="text-xs text-gray-500 mt-1 uppercase tracking-wider">CLI Required</div>
+				</div>
+				<div>
+					<div class="text-2xl font-bold text-white">PHP 8.1+</div>
+					<div class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Requirement</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="relative z-10 mt-20 w-full max-w-xl">
+			<div class="rounded-xl border border-gray-800 bg-gray-900/80 backdrop-blur-sm overflow-hidden shadow-2xl">
+				<div class="flex items-center gap-2 px-4 py-3 border-b border-gray-800">
+					<div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+					<div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+					<div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+					<span class="ml-2 text-xs text-gray-500">routes.php</span>
+				</div>
+				<pre class="p-5 text-sm leading-relaxed overflow-x-auto"><code><span class="text-gray-500">// Define a route in seconds</span>
+<span class="text-violet-400">$app</span><span class="text-gray-400">-></span><span class="text-emerald-400">get</span><span class="text-gray-400">(</span><span class="text-amber-300">'/hello/{name}'</span><span class="text-gray-400">,</span> <span class="text-violet-400">function</span> <span class="text-gray-400">(</span><span class="text-violet-400">$request</span><span class="text-gray-400">,</span> <span class="text-violet-400">$response</span><span class="text-gray-400">) {</span>
+    <span class="text-violet-400">$name</span> <span class="text-gray-400">=</span> <span class="text-violet-400">$request</span><span class="text-gray-400">-></span><span class="text-emerald-400">param</span><span class="text-gray-400">(</span><span class="text-amber-300">'name'</span><span class="text-gray-400">);</span>
+    <span class="text-violet-400 italic">return</span> <span class="text-violet-400">$response</span><span class="text-gray-400">-></span><span class="text-emerald-400">withJSON</span><span class="text-gray-400">([</span><span class="text-amber-300">'hello'</span> <span class="text-gray-400">=></span> <span class="text-violet-400">$name</span><span class="text-gray-400">]);</span>
+<span class="text-gray-400">});</span></code></pre>
+			</div>
+		</div>
+
+		<p class="relative z-10 mt-12 text-sm text-gray-600">
+			Edit
+			<code class="text-gray-500">routes.php</code>
+			to get started.
+		</p>
+	</div>
 {% endblock %}

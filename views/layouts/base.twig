@@ -3,13 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MiniPHP</title>
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-
+    <title>{% block title %}MiniPHP{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block head %}{% endblock %}
 </head>
-<body>
-<main>
+<body class="bg-gray-950 text-gray-100 antialiased">
     {% block content %}{% endblock %}
-</main>
 </body>
 </html>
